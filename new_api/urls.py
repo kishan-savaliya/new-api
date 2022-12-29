@@ -31,4 +31,6 @@ router.register("like", views.LikeViewSet, basename="like")
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path("", include('userapp.urls')),
+    path('',include(router.urls))
+    # path('',include('newapp.urls'))
 ]

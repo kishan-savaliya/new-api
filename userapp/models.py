@@ -2,7 +2,6 @@ from django.db import models
 
 Like_choices = (
     ('like','like'),
-    ('dislike','dislike')
 )
 
 class User(models.Model):
@@ -18,6 +17,7 @@ class User(models.Model):
 
     name = models.CharField(max_length=100)
     gender = models.CharField(max_length=100)
+    # owner = models.ForeignKey('auth.User',related_name='users',on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -43,7 +43,7 @@ class Post(models.Model):
 
     def likes_count(self):
        return self.likes.all().count()
-
+    
 class Like(models.Model):
 
     """create model for like instances.
@@ -55,9 +55,11 @@ class Like(models.Model):
         _type_: _description_
     """
     
-    post = models.ForeignKey(Post,on_delete=models.CASCADE,related_name='like')
-    like = models.CharField(max_length=100, choices=Like_choices, default="like")
+    post = models.ForeignKey(Post,on_delete=models.CASCADE,related_name='likes')
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    like = models.CharField(max_length=100, choices=Like_choices)
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
         return self.like
+

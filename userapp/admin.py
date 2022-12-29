@@ -20,7 +20,7 @@ class PostAdmin(admin.ModelAdmin):
         admin (_type_): _description_
     """
 
-    list_display = ['id','title','user','like']
+    list_display = ['id','title','user']
 
 @admin.register(Like)
 class LikeAdmin(admin.ModelAdmin):
@@ -31,4 +31,4 @@ class LikeAdmin(admin.ModelAdmin):
         admin (_type_): _description_
     """
 
-    list_display = ['like','post']
+    list_display = ['like','post','user']

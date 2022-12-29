@@ -1,17 +1,9 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
 from .models import User,Post,Like
 from .serializers import UserSerializers,PostSerializers,LikeSerializers
-
-# @api_view(['GET','POST'])
-# def allpost(request):
-#     id = request.data    
-#     post_list = Post.objects.all()
-#     like_count = Like.objects.filter(post_id = id).count()
-#     post_serializer = PostSerializers(post_list,many=True,context={"like_count":like_count})
-#     return Response(request,post_serializer.data)
+from rest_framework.authentication import SessionAuthentication
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 class UserViewSet(viewsets.ModelViewSet):
 
@@ -23,6 +15,8 @@ class UserViewSet(viewsets.ModelViewSet):
 
     queryset = User.objects.all()
     serializer_class = UserSerializers
+    authentication_classes = [SessionAuthentication]
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 class PostViewSet(viewsets.ModelViewSet):
 
@@ -34,6 +28,8 @@ class PostViewSet(viewsets.ModelViewSet):
 
     queryset = Post.objects.all()
     serializer_class = PostSerializers
+    authentication_classes = [SessionAuthentication]
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 class LikeViewSet(viewsets.ModelViewSet):
 
@@ -45,6 +41,8 @@ class LikeViewSet(viewsets.ModelViewSet):
 
     queryset = Like.objects.all()
     serializer_class = LikeSerializers
+    authentication_classes = [SessionAuthentication]
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
    
 
