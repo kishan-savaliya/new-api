@@ -3,7 +3,8 @@ from rest_framework import viewsets
 from .models import User,Post,Like
 from .serializers import UserSerializers,PostSerializers,LikeSerializers
 from rest_framework.authentication import SessionAuthentication
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework import permissions
+from .permission import IsOwnerOrReadOnly
 
 class UserViewSet(viewsets.ModelViewSet):
 
@@ -15,8 +16,8 @@ class UserViewSet(viewsets.ModelViewSet):
 
     queryset = User.objects.all()
     serializer_class = UserSerializers
-    authentication_classes = [SessionAuthentication]
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    # authentication_classes = [SessionAuthentication]
+    # permission_classes = [permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly]
 
 class PostViewSet(viewsets.ModelViewSet):
 
@@ -28,8 +29,8 @@ class PostViewSet(viewsets.ModelViewSet):
 
     queryset = Post.objects.all()
     serializer_class = PostSerializers
-    authentication_classes = [SessionAuthentication]
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    # authentication_classes = [SessionAuthentication]
+    # permission_classes = [IsAuthenticatedOrReadOnly]
 
 class LikeViewSet(viewsets.ModelViewSet):
 
@@ -41,9 +42,5 @@ class LikeViewSet(viewsets.ModelViewSet):
 
     queryset = Like.objects.all()
     serializer_class = LikeSerializers
-    authentication_classes = [SessionAuthentication]
-    permission_classes = [IsAuthenticatedOrReadOnly]
-
-   
-
-
+    # authentication_classes = [SessionAuthentication]
+    # permission_classes = [IsAuthenticatedOrReadOnly]

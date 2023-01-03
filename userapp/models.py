@@ -17,7 +17,6 @@ class User(models.Model):
 
     name = models.CharField(max_length=100)
     gender = models.CharField(max_length=100)
-    # owner = models.ForeignKey('auth.User',related_name='users',on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -42,12 +41,14 @@ class Post(models.Model):
         return self.title
 
     def likes_count(self):
-       return self.likes.all().count()
+        return self.likes.all().count()
     
+    # def liked_by(self):
+    #     return str(self.likes.all())
+
 class Like(models.Model):
 
     """create model for like instances.
-
     Args:
         models (_type_): _description_
 
@@ -56,10 +57,12 @@ class Like(models.Model):
     """
     
     post = models.ForeignKey(Post,on_delete=models.CASCADE,related_name='likes')
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='liked_by')
     like = models.CharField(max_length=100, choices=Like_choices)
     created_at = models.DateTimeField(auto_now_add=True)
-    
-    def __str__(self):
-        return self.like
 
+    def __str__(self):
+        return self.user
+
+    def __repr__(self):
+        return f'{self.user}'
