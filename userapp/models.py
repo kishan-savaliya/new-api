@@ -20,6 +20,7 @@ class User(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def get_name(self):
+
         return self.name
 
 class Post(models.Model):
@@ -38,13 +39,16 @@ class Post(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='post')
 
     def __str__(self):
+
         return self.title
 
     def get_user(self):
+
         return self.user.get_name()
 
-    def likes_count(self):
-        return self.likes.all().count()
+    # def likes_count(self):
+
+    #     return self.likes.all().count()
 
 class Like(models.Model):
 
@@ -62,6 +66,7 @@ class Like(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def get_user(self):
+
         return self.user.get_name()
 
     # def __str__(self):

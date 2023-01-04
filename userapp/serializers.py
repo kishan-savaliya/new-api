@@ -25,17 +25,22 @@ class PostSerializers(serializers.ModelSerializer):
     """
 
     liked_by = serializers.SerializerMethodField()
+    like_count = serializers.SerializerMethodField()
 
     class Meta: 
 
         model = Post
-        fields  = ["id","title","user","likes_count","liked_by"]
+        fields  = ["id","title","user","like_count","liked_by"]
 
     def get_liked_by(self, obj):
         likes = Like.objects.filter(post=obj)
-        likes = LikeSerializers(likes,many=True)
 
-        return likes.data
+        return LikeSerializers(likes,many=True).data
+
+    def get_like_count(self,obj):
+        likes = Like.objects.filter(post=obj).count()
+
+        return likes
 
 class LikeSerializers(serializers.ModelSerializer):
 
@@ -44,7 +49,8 @@ class LikeSerializers(serializers.ModelSerializer):
     Args:
         serializers (_type_): _description_
     """
-    user =  UserSerializers()
+
+    user = UserSerializers()
 
     class Meta:
 
