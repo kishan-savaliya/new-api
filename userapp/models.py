@@ -19,7 +19,7 @@ class User(models.Model):
     gender = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
+    def get_name(self):
         return self.name
 
 class Post(models.Model):
@@ -40,11 +40,11 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
+    def get_user(self):
+        return self.user.get_name()
+
     def likes_count(self):
         return self.likes.all().count()
-    
-    # def liked_by(self):
-    #     return str(self.likes.all())
 
 class Like(models.Model):
 
@@ -57,12 +57,15 @@ class Like(models.Model):
     """
     
     post = models.ForeignKey(Post,on_delete=models.CASCADE,related_name='likes')
-    user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='liked_by')
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
     like = models.CharField(max_length=100, choices=Like_choices)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return self.user
+    def get_user(self):
+        return self.user.get_name()
 
-    def __repr__(self):
-        return f'{self.user}'
+    # def __str__(self):
+    #     return self.user
+
+    # def __repr__(self):
+    #     return f'{self.user}'
